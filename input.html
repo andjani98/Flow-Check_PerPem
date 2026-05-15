@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowCheck — Input Dokumen</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F7FC;--surface:#FFFFFF;--s2:#EBF0F9;--s3:#DDE6F5;
+  --blue:#1A4FBF;--blue-h:#1340A0;--blue2:#E6EEF9;--blue3:#C5D7F2;
+  --green:#0A6640;--green2:#E6F4EE;--amber:#8B4A00;--amber2:#FEF3E6;
+  --red:#8B1010;--red2:#FDEAEA;--purple:#4A1A8B;--purple2:#EEE6F9;
+  --text:#0D1629;--t2:#3D5080;--t3:#8090B0;
+  --border:#D0DCF0;--border2:#E4ECF8;
+  --r:12px;--r2:8px;--r3:6px;
+  --shadow:0 1px 3px rgba(26,79,191,.08),0 4px 16px rgba(26,79,191,.06);
+  --shadow-hover:0 4px 12px rgba(26,79,191,.15),0 8px 32px rgba(26,79,191,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Instrument Sans',sans-serif;min-height:100vh;}
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+.brand{padding:0 20px 24px;border-bottom:1px solid var(--border2);}
+.brand-mark{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.brand-icon{width:38px;height:38px;background:var(--blue);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:14px;color:#fff;}
+.brand-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;color:var(--text);letter-spacing:-.5px;}
+.brand-name span{color:var(--blue);}
+.brand-desc{font-size:11px;color:var(--t3);font-style:italic;line-height:1.4;}
+.nav{padding:16px 12px;flex:1;}
+.nav-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:0 8px;margin:16px 0 6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r2);font-size:13px;color:var(--t2);border:none;background:transparent;font-family:'Instrument Sans',sans-serif;width:100%;text-align:left;cursor:pointer;transition:all .2s;text-decoration:none;}
+.nav-item:hover{background:var(--s2);color:var(--text);}
+.nav-item.active{background:var(--blue2);color:var(--blue);font-weight:500;}
+.nav-icon{font-size:16px;flex-shrink:0;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border2);margin-top:auto;}
+.stat-row{display:flex;justify-content:space-between;margin-bottom:8px;}
+.stat-label{font-size:11px;color:var(--t3);}
+.stat-val{font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:700;color:var(--blue);}
+.main{padding:32px 36px;overflow-y:auto;}
+.page-header{margin-bottom:28px;}
+.page-title{font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:800;color:var(--text);letter-spacing:-.5px;margin-bottom:4px;}
+.page-sub{font-size:14px;color:var(--t2);font-style:italic;}
+
+/* JENIS TABS */
+.jenis-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+.jenis-tab{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:var(--shadow);}
+.jenis-tab:hover{border-color:var(--blue3);box-shadow:var(--shadow-hover);}
+.jenis-tab.active{border-color:var(--blue);background:var(--blue2);box-shadow:0 0 0 3px rgba(26,79,191,.1);}
+.jenis-icon{font-size:24px;margin-bottom:6px;}
+.jenis-name{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;color:var(--text);}
+.jenis-tab.active .jenis-name{color:var(--blue);}
+.jenis-desc{font-size:11px;color:var(--t3);margin-top:2px;font-style:italic;}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px 26px;box-shadow:var(--shadow);margin-bottom:16px;}
+.card-title{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.card-sub{font-size:13px;color:var(--t2);margin-bottom:18px;font-style:italic;}
+.tip{background:var(--blue2);border-left:3px solid var(--blue);border-radius:0 var(--r3) var(--r3) 0;padding:10px 14px;margin-bottom:18px;font-size:13px;color:var(--blue);line-height:1.5;}
+.tip strong{font-weight:700;}
+
+/* FORM */
+.form-section{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border2);}
+.form-section:last-child{border:none;margin-bottom:0;padding-bottom:0;}
+.section-title{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-title::before{content:'';display:block;width:3px;height:14px;background:var(--blue);border-radius:2px;}
+label{display:block;font-size:11px;font-weight:600;color:var(--t2);margin-bottom:4px;margin-top:12px;text-transform:uppercase;letter-spacing:.05em;font-family:'Bricolage Grotesque',sans-serif;}
+label:first-child{margin-top:0;}
+input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--r2);padding:10px 13px;color:var(--text);font-family:'Instrument Sans',sans-serif;font-size:14px;outline:none;transition:all .2s;resize:vertical;}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);background:var(--surface);box-shadow:0 0 0 3px rgba(26,79,191,.1);}
+input::placeholder,textarea::placeholder{color:var(--t3);}
+textarea{min-height:88px;line-height:1.6;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.field-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.field-hint{font-size:11px;color:var(--t3);margin-top:4px;font-style:italic;}
+
+/* STRATEGI PILLS */
+.strategi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px;}
+.strategi-pill{padding:8px 10px;border-radius:var(--r2);border:1px solid var(--border);background:var(--bg);font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Instrument Sans',sans-serif;text-align:center;color:var(--t2);}
+.strategi-pill:hover{border-color:var(--blue3);color:var(--text);}
+.strategi-pill.active{background:var(--blue2);border-color:var(--blue);color:var(--blue);font-weight:600;}
+
+/* WAKTU SLIDER */
+.waktu-wrap{display:flex;align-items:center;gap:14px;margin-top:4px;}
+.waktu-slider{flex:1;-webkit-appearance:none;height:6px;background:var(--s3);border-radius:3px;outline:none;}
+.waktu-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--blue);cursor:pointer;box-shadow:0 2px 6px rgba(26,79,191,.3);}
+.waktu-display{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;color:var(--blue);min-width:60px;text-align:right;}
+
+/* PREVIEW CARD */
+.preview-card{background:var(--s2);border:1px dashed var(--blue3);border-radius:var(--r);padding:16px 18px;margin-top:20px;}
+.preview-title{font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;}
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.preview-item{background:var(--surface);border-radius:var(--r3);padding:8px 10px;}
+.preview-label{font-size:10px;color:var(--t3);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px;}
+.preview-val{font-size:13px;color:var(--text);font-weight:500;}
+.preview-val.empty{color:var(--t3);font-style:italic;}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;align-items:center;}
+.btn{padding:10px 24px;border-radius:var(--r2);font-size:13px;font-weight:700;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);letter-spacing:.01em;}
+.btn:active{transform:scale(.97);}
+.btn-ghost{background:transparent;color:var(--t2);}
+.btn-ghost:hover{background:var(--s2);color:var(--text);}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 2px 8px rgba(26,79,191,.25);}
+.btn-primary:hover{background:var(--blue-h);box-shadow:0 4px 16px rgba(26,79,191,.35);}
+.char-count{font-size:12px;color:var(--t3);margin-right:auto;font-style:italic;}
+
+/* SUCCESS STATE */
+.success-state{display:none;text-align:center;padding:3rem 2rem;}
+.success-state.show{display:block;animation:fadeUp .4s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.success-icon{font-size:56px;margin-bottom:16px;}
+.success-title{font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px;}
+.success-sub{font-size:14px;color:var(--t2);font-style:italic;margin-bottom:24px;}
+.success-acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:12px 24px;border-radius:30px;z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);font-family:'Bricolage Grotesque',sans-serif;box-shadow:0 8px 24px rgba(26,79,191,.4);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@media(max-width:768px){
+  .shell{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .main{padding:16px;}
+  .jenis-tabs,.field-row,.field-row3,.strategi-grid,.preview-grid{grid-template-columns:1fr 1fr;}
+  .jenis-tabs{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <div class="brand-icon">FC</div>
+        <div class="brand-name">Flow<span>Check</span></div>
+      </div>
+      <div class="brand-desc">Platform Evaluasi Pembelajaran<br>Open Access · Multi-User</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-label">Menu Utama</div>
+      <a class="nav-item" href="beranda.html"><span class="nav-icon">🏠</span> Beranda</a>
+      <a class="nav-item active" href="input.html"><span class="nav-icon">📝</span> Input Dokumen</a>
+      <a class="nav-item" href="analisis.html"><span class="nav-icon">📊</span> Analisis</a>
+      <div class="nav-label">Fitur</div>
+      <a class="nav-item" href="praktikum.html"><span class="nav-icon">🔬</span> Lap. Praktikum</a>
+      <a class="nav-item" href="rancangan.html"><span class="nav-icon">📐</span> Rancangan Mengajar</a>
+      <a class="nav-item" href="selfassess.html"><span class="nav-icon">🎯</span> Self-Assessment</a>
+      <div class="nav-label">Referensi</div>
+      <a class="nav-item" href="gamifikasi.html"><span class="nav-icon">🎮</span> Gamifikasi</a>
+      <a class="nav-item" href="referensi.html"><span class="nav-icon">📚</span> Referensi</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="stat-row"><span class="stat-label">Total dokumen</span><span class="stat-val" id="s-total">0</span></div>
+      <div class="stat-row"><span class="stat-label">Kontributor</span><span class="stat-val" id="s-user">0</span></div>
+      <div class="stat-row"><span class="stat-label">RPS</span><span class="stat-val" id="s-rps">0</span></div>
+      <div class="stat-row"><span class="stat-label">RPP</span><span class="stat-val" id="s-rpp">0</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="page-header">
+      <h1 class="page-title">Input Dokumen</h1>
+      <p class="page-sub">RPP, RPS, laporan, atau rancangan mengajar — siapapun bisa berkontribusi</p>
+    </div>
+
+    <!-- JENIS TABS -->
+    <div class="jenis-tabs">
+      <div class="jenis-tab active" onclick="setJenis('RPP',this)" id="tab-RPP">
+        <div class="jenis-icon">📄</div>
+        <div class="jenis-name">RPP</div>
+        <div class="jenis-desc">Rencana Pelaksanaan Pembelajaran</div>
+      </div>
+      <div class="jenis-tab" onclick="setJenis('RPS',this)" id="tab-RPS">
+        <div class="jenis-icon">📋</div>
+        <div class="jenis-name">RPS</div>
+        <div class="jenis-desc">Rencana Pembelajaran Semester</div>
+      </div>
+      <div class="jenis-tab" onclick="setJenis('Laporan',this)" id="tab-Laporan">
+        <div class="jenis-icon">🔬</div>
+        <div class="jenis-name">Laporan</div>
+        <div class="jenis-desc">Laporan Praktikum / Observasi</div>
+      </div>
+      <div class="jenis-tab" onclick="setJenis('Rancangan',this)" id="tab-Rancangan">
+        <div class="jenis-icon">📐</div>
+        <div class="jenis-name">Rancangan</div>
+        <div class="jenis-desc">Rancangan Mengajar / Lesson Plan</div>
+      </div>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="card" id="form-card">
+      <div class="card-title" id="form-title">📄 Input RPP</div>
+      <div class="card-sub" id="form-sub">Isi komponen RPP kamu. Dokumen akan otomatis tersedia di Beranda untuk dianalisis siapapun.</div>
+      <div class="tip">Platform ini bersifat <strong>open access</strong> — tidak perlu login. Dokumen yang disimpan bisa dilihat dan dianalisis oleh semua pengguna.</div>
+
+      <!-- IDENTITAS -->
+      <div class="form-section">
+        <div class="section-title">Identitas</div>
+        <div class="field-row">
+          <div>
+            <label>Nama Pengisi *</label>
+            <input id="in-nama" placeholder="Nama lengkap kamu..." oninput="updatePreview()">
+          </div>
+          <div>
+            <label>Instansi / Kampus</label>
+            <input id="in-inst" placeholder="Universitas / Sekolah..." oninput="updatePreview()">
+          </div>
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Mata Kuliah / Pelajaran *</label>
+            <input id="in-mapel" placeholder="Perencanaan Pembelajaran..." oninput="updatePreview()">
+          </div>
+          <div>
+            <label>Kelas / Semester</label>
+            <input id="in-kelas" placeholder="Kelas A & B / Semester IV..." oninput="updatePreview()">
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM AKADEMIK (RPP/RPS) -->
+      <div id="form-akademik">
+        <div class="form-section">
+          <div class="section-title">Tujuan & Capaian</div>
+          <label>Tujuan Pembelajaran (Format ABCD)</label>
+          <textarea id="in-tujuan" placeholder="Setelah mengikuti pembelajaran, mahasiswa Pendidikan Bisnis Angkatan 2024 mampu [KKO] [materi] dengan [kondisi] secara [kriteria]..." oninput="updatePreview()"></textarea>
+          <div class="field-hint">A=Audience · B=Behavior/KKO · C=Condition · D=Degree</div>
+          <div class="field-row" style="margin-top:0;">
+            <div>
+              <label>CPMK / KI-KD</label>
+              <input id="in-cpmk" placeholder="CPMK 3 / KD 3.1..." oninput="updatePreview()">
+            </div>
+            <div>
+              <label>KKO yang Digunakan</label>
+              <input id="in-kko" placeholder="Merancang / Menganalisis..." oninput="updatePreview()">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-title">Strategi & Waktu</div>
+          <label>Strategi Pembelajaran</label>
+          <div class="strategi-grid" id="strategi-grid">
+            <div class="strategi-pill active" onclick="setStrategi('Microlearning + Scaffolding',this)">Microlearning + Scaffolding</div>
+            <div class="strategi-pill" onclick="setStrategi('Project Based Learning',this)">Project Based Learning</div>
+            <div class="strategi-pill" onclick="setStrategi('Discovery Learning',this)">Discovery Learning</div>
+            <div class="strategi-pill" onclick="setStrategi('Game Based Learning',this)">Game Based Learning</div>
+            <div class="strategi-pill" onclick="setStrategi('Inquiry Learning',this)">Inquiry Learning</div>
+            <div class="strategi-pill" onclick="setStrategi('Ceramah + Diskusi',this)">Ceramah + Diskusi</div>
+          </div>
+          <label style="margin-top:14px;">Alokasi Waktu</label>
+          <div class="waktu-wrap">
+            <input type="range" class="waktu-slider" id="waktu-slider" min="30" max="300" value="150" step="10" oninput="updateWaktu()">
+            <div class="waktu-display"><span id="waktu-val">150</span> mnt</div>
+          </div>
+          <div class="field-hint">Geser untuk mengatur alokasi waktu (30–300 menit)</div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-title">Kegiatan & Penilaian</div>
+          <label>Deskripsi Kegiatan Inti</label>
+          <textarea id="in-kegiatan" rows="5" placeholder="Modeling (0-30 mnt): Dosen mendemonstrasikan...&#10;Guided Practice (30-70 mnt): Latihan terbimbing...&#10;Independent Practice (70-120 mnt): Mahasiswa mandiri...&#10;Refleksi (120-150 mnt): Submit & penutup..." oninput="updatePreview()"></textarea>
+          <div class="field-row">
+            <div>
+              <label>Media Pembelajaran</label>
+              <input id="in-media" placeholder="PPT, FlowCheck, Ular Tangga..." oninput="updatePreview()">
+            </div>
+            <div>
+              <label>Penilaian</label>
+              <input id="in-nilai" placeholder="Rubrik, portofolio, observasi..." oninput="updatePreview()">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM LAIN (Laporan/Rancangan) -->
+      <div id="form-lain" style="display:none;">
+        <div class="form-section">
+          <div class="section-title">Informasi Dokumen</div>
+          <label>Judul Dokumen *</label>
+          <input id="in-judul" placeholder="Judul laporan atau rancangan mengajar..." oninput="updatePreview()">
+          <label>Deskripsi / Isi Ringkas</label>
+          <textarea id="in-isi" placeholder="Deskripsikan isi dokumen secara ringkas..." style="min-height:110px;" oninput="updatePreview()"></textarea>
+          <label>Temuan / Hasil / Tujuan Utama</label>
+          <textarea id="in-temuan" placeholder="Temuan utama, hasil observasi, atau tujuan dari dokumen ini..." oninput="updatePreview()"></textarea>
+        </div>
+      </div>
+
+      <!-- PREVIEW -->
+      <div class="preview-card">
+        <div class="preview-title">👁 Preview Dokumen</div>
+        <div class="preview-grid" id="preview-grid">
+          <div class="preview-item"><div class="preview-label">Jenis</div><div class="preview-val" id="pv-jenis">RPP</div></div>
+          <div class="preview-item"><div class="preview-label">Nama</div><div class="preview-val empty" id="pv-nama">Belum diisi</div></div>
+          <div class="preview-item"><div class="preview-label">Mata Kuliah</div><div class="preview-val empty" id="pv-mapel">Belum diisi</div></div>
+          <div class="preview-item"><div class="preview-label">Kelas</div><div class="preview-val empty" id="pv-kelas">Belum diisi</div></div>
+          <div class="preview-item" id="pv-cpmk-wrap"><div class="preview-label">CPMK</div><div class="preview-val empty" id="pv-cpmk">Belum diisi</div></div>
+          <div class="preview-item" id="pv-strategi-wrap"><div class="preview-label">Strategi</div><div class="preview-val" id="pv-strategi">Microlearning + Scaffolding</div></div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <span class="char-count" id="char-count"></span>
+        <button class="btn btn-ghost" onclick="resetForm()">↺ Reset</button>
+        <button class="btn btn-primary" onclick="saveDoc()">💾 Simpan & Publikasikan</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="success-state" id="success-state">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">Dokumen Berhasil Dipublikasikan!</div>
+      <div class="success-sub">Dokumen kamu sudah tersimpan dan bisa diakses serta dianalisis oleh semua pengguna FlowCheck.</div>
+      <div class="success-acts">
+        <a href="beranda.html" class="btn btn-primary">🏠 Lihat di Beranda</a>
+        <a href="analisis.html" class="btn btn-ghost">📊 Analisis Sekarang</a>
+        <button class="btn btn-ghost" onclick="inputLagi()">+ Input Lagi</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE = 'flowcheck_v3';
+let selectedJenis = 'RPP';
+let selectedStrategi = 'Microlearning + Scaffolding';
+
+function getDocs(){try{return JSON.parse(localStorage.getItem(STORE)||'[]');}catch{return[];}}
+function putDocs(d){try{localStorage.setItem(STORE,JSON.stringify(d));}catch{}}
+
+function updateStats(){
+  const docs = getDocs();
+  const names = new Set(docs.map(d=>d.nama).filter(Boolean));
+  document.getElementById('s-total').textContent = docs.length;
+  document.getElementById('s-user').textContent = names.size;
+  document.getElementById('s-rps').textContent = docs.filter(d=>d.jenis==='RPS').length;
+  document.getElementById('s-rpp').textContent = docs.filter(d=>d.jenis==='RPP').length;
+}
+
+function setJenis(j, el){
+  selectedJenis = j;
+  document.querySelectorAll('.jenis-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const isLain = j==='Laporan'||j==='Rancangan';
+  document.getElementById('form-akademik').style.display = isLain ? 'none' : 'block';
+  document.getElementById('form-lain').style.display = isLain ? 'block' : 'none';
+  const titles = {RPP:'📄 Input RPP',RPS:'📋 Input RPS',Laporan:'🔬 Input Laporan Praktikum',Rancangan:'📐 Input Rancangan Mengajar'};
+  const subs = {
+    RPP:'Isi komponen RPP kamu. Dokumen akan tersedia di Beranda untuk dianalisis siapapun.',
+    RPS:'Isi komponen RPS semester ini. Semua pengguna bisa melihat dan menganalisisnya.',
+    Laporan:'Input laporan praktikum untuk dianalisis kelengkapannya secara otomatis.',
+    Rancangan:'Buat rancangan sesi mengajar berbasis scaffolding dan publikasikan.'
+  };
+  document.getElementById('form-title').textContent = titles[j];
+  document.getElementById('form-sub').textContent = subs[j];
+  document.getElementById('pv-jenis').textContent = j;
+  document.getElementById('pv-cpmk-wrap').style.display = isLain ? 'none' : 'block';
+  document.getElementById('pv-strategi-wrap').style.display = isLain ? 'none' : 'block';
+  updatePreview();
+}
+
+function setStrategi(s, el){
+  selectedStrategi = s;
+  document.querySelectorAll('.strategi-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('pv-strategi').textContent = s;
+}
+
+function updateWaktu(){
+  const v = document.getElementById('waktu-slider').value;
+  document.getElementById('waktu-val').textContent = v;
+}
+
+function gv(id){return(document.getElementById(id)||{}).value||'';}
+
+function updatePreview(){
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    if(val){el.textContent=val;el.classList.remove('empty');}
+    else{el.textContent='Belum diisi';el.classList.add('empty');}
+  };
+  set('pv-nama', gv('in-nama'));
+  set('pv-mapel', gv('in-mapel'));
+  set('pv-kelas', gv('in-kelas'));
+  set('pv-cpmk', gv('in-cpmk'));
+  const isLain = selectedJenis==='Laporan'||selectedJenis==='Rancangan';
+  const totalChars = isLain
+    ? (gv('in-judul')+gv('in-isi')+gv('in-temuan')).length
+    : (gv('in-tujuan')+gv('in-kegiatan')).length;
+  const cc = document.getElementById('char-count');
+  if(cc) cc.textContent = totalChars > 0 ? `${totalChars} karakter` : '';
+}
+
+function resetForm(){
+  ['in-nama','in-inst','in-mapel','in-kelas','in-tujuan','in-cpmk','in-kko',
+   'in-kegiatan','in-media','in-nilai','in-judul','in-isi','in-temuan'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  document.getElementById('waktu-slider').value = 150;
+  document.getElementById('waktu-val').textContent = '150';
+  document.querySelectorAll('.strategi-pill').forEach((p,i)=>p.classList.toggle('active',i===0));
+  selectedStrategi = 'Microlearning + Scaffolding';
+  updatePreview();
+  showToast('↺ Form direset.');
+}
+
+function inputLagi(){
+  document.getElementById('success-state').classList.remove('show');
+  document.getElementById('success-state').style.display = 'none';
+  document.getElementById('form-card').style.display = 'block';
+  resetForm();
+}
+
+function saveDoc(){
+  const nama = gv('in-nama'), mapel = gv('in-mapel');
+  const isLain = selectedJenis==='Laporan'||selectedJenis==='Rancangan';
+  if(!nama){showToast('⚠️ Nama pengisi wajib diisi!');document.getElementById('in-nama').focus();return;}
+  if(!mapel){showToast('⚠️ Mata kuliah wajib diisi!');document.getElementById('in-mapel').focus();return;}
+  if(isLain && !gv('in-judul')){showToast('⚠️ Judul dokumen wajib diisi!');document.getElementById('in-judul').focus();return;}
+
+  const doc = {
+    id: Date.now(),
+    jenis: selectedJenis,
+    nama, instansi: gv('in-inst'), mapel, kelas: gv('in-kelas'),
+    tujuan: gv('in-tujuan'), cpmk: gv('in-cpmk'), kko: gv('in-kko'),
+    strategi: selectedStrategi,
+    waktu: document.getElementById('waktu-slider').value,
+    kegiatan: gv('in-kegiatan'), media: gv('in-media'), penilaian: gv('in-nilai'),
+    judul: gv('in-judul'), isi: gv('in-isi'), temuan: gv('in-temuan'),
+    ts: new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})
+  };
+
+  const docs = getDocs();
+  docs.unshift(doc);
+  putDocs(docs);
+  updateStats();
+
+  // Show success
+  document.getElementById('form-card').style.display = 'none';
+  const ss = document.getElementById('success-state');
+  ss.style.display = 'block';
+  ss.classList.add('show');
+  // Store last saved id for analisis
+  localStorage.setItem('fc_analyze_id', doc.id);
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+updateStats();
+</script>
+</body>
+</html>

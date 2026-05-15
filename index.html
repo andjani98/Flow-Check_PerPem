@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowCheck — Beranda</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F7FC;--surface:#FFFFFF;--s2:#EBF0F9;--s3:#DDE6F5;
+  --blue:#1A4FBF;--blue-h:#1340A0;--blue2:#E6EEF9;--blue3:#C5D7F2;
+  --green:#0A6640;--green2:#E6F4EE;--amber:#8B4A00;--amber2:#FEF3E6;
+  --red:#8B1010;--red2:#FDEAEA;--purple:#4A1A8B;--purple2:#EEE6F9;
+  --text:#0D1629;--t2:#3D5080;--t3:#8090B0;
+  --border:#D0DCF0;--border2:#E4ECF8;
+  --r:12px;--r2:8px;--r3:6px;
+  --shadow:0 1px 3px rgba(26,79,191,.08),0 4px 16px rgba(26,79,191,.06);
+  --shadow-hover:0 4px 12px rgba(26,79,191,.15),0 8px 32px rgba(26,79,191,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Instrument Sans',sans-serif;min-height:100vh;}
+
+/* LAYOUT */
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+.brand{padding:0 20px 24px;border-bottom:1px solid var(--border2);}
+.brand-mark{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.brand-icon{width:38px;height:38px;background:var(--blue);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:14px;color:#fff;}
+.brand-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;color:var(--text);letter-spacing:-.5px;}
+.brand-name span{color:var(--blue);}
+.brand-desc{font-size:11px;color:var(--t3);font-style:italic;line-height:1.4;}
+.nav{padding:16px 12px;flex:1;}
+.nav-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:0 8px;margin:16px 0 6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r2);font-size:13px;color:var(--t2);border:none;background:transparent;font-family:'Instrument Sans',sans-serif;width:100%;text-align:left;cursor:pointer;transition:all .2s;text-decoration:none;}
+.nav-item:hover{background:var(--s2);color:var(--text);}
+.nav-item.active{background:var(--blue2);color:var(--blue);font-weight:500;}
+.nav-icon{font-size:16px;flex-shrink:0;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border2);margin-top:auto;}
+.stat-row{display:flex;justify-content:space-between;margin-bottom:8px;}
+.stat-label{font-size:11px;color:var(--t3);}
+.stat-val{font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:700;color:var(--blue);}
+
+/* MAIN */
+.main{padding:32px 36px;overflow-y:auto;}
+.page-header{margin-bottom:28px;}
+.page-title{font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:800;color:var(--text);letter-spacing:-.5px;margin-bottom:4px;}
+.page-sub{font-size:14px;color:var(--t2);font-style:italic;}
+
+/* HERO STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);transition:all .25s;cursor:default;}
+.stat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);}
+.stat-card-icon{font-size:22px;margin-bottom:10px;}
+.stat-card-val{font-family:'Bricolage Grotesque',sans-serif;font-size:36px;font-weight:800;color:var(--blue);line-height:1;margin-bottom:4px;}
+.stat-card-label{font-size:12px;color:var(--t2);}
+
+/* FEED SECTION */
+.feed-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px 24px;box-shadow:var(--shadow);}
+.feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap;}
+.feed-title{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;color:var(--text);}
+.feed-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.search-wrap{position:relative;}
+.search-input{background:var(--s2);border:1px solid var(--border2);border-radius:var(--r2);padding:8px 12px 8px 34px;font-size:13px;font-family:'Instrument Sans',sans-serif;color:var(--text);outline:none;width:220px;transition:all .2s;}
+.search-input:focus{border-color:var(--blue);background:var(--surface);box-shadow:0 0 0 3px rgba(26,79,191,.1);}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--t3);pointer-events:none;}
+.filter-pills{display:flex;gap:6px;flex-wrap:wrap;}
+.pill{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;font-family:'Bricolage Grotesque',sans-serif;color:var(--t2);transition:all .2s;}
+.pill:hover{background:var(--s2);color:var(--text);}
+.pill.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* DOC LIST */
+.doc-list{display:flex;flex-direction:column;gap:10px;}
+.doc-item{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);transition:all .2s;box-shadow:0 1px 3px rgba(26,79,191,.04);}
+.doc-item:hover{border-color:var(--blue3);box-shadow:var(--shadow-hover);transform:translateY(-1px);}
+.doc-icon{width:42px;height:42px;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.di-rps{background:var(--blue2);}
+.di-rpp{background:var(--green2);}
+.di-lap{background:var(--amber2);}
+.di-rng{background:var(--purple2);}
+.doc-body{flex:1;min-width:0;}
+.doc-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Bricolage Grotesque',sans-serif;}
+.doc-meta{font-size:12px;color:var(--t3);font-style:italic;}
+.doc-acts{display:flex;gap:6px;flex-shrink:0;}
+.doc-btn{padding:6px 14px;border-radius:var(--r3);font-size:12px;font-weight:600;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;transition:all .2s;border:1px solid var(--border);background:var(--s2);color:var(--t2);}
+.doc-btn:hover{background:var(--s3);color:var(--text);}
+.doc-btn.primary{background:var(--blue);color:#fff;border-color:var(--blue);}
+.doc-btn.primary:hover{background:var(--blue-h);}
+.doc-btn.danger{color:var(--red);border-color:transparent;background:transparent;}
+.doc-btn.danger:hover{background:var(--red2);border-color:var(--red2);}
+.jenis-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;font-family:'Bricolage Grotesque',sans-serif;display:inline-block;margin-left:4px;}
+.jb-rps{background:var(--blue2);color:var(--blue);}
+.jb-rpp{background:var(--green2);color:var(--green);}
+.jb-lap{background:var(--amber2);color:var(--amber);}
+.jb-rng{background:var(--purple2);color:var(--purple);}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:4rem 2rem;}
+.empty-icon{font-size:52px;opacity:.3;margin-bottom:14px;}
+.empty-title{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;color:var(--t2);margin-bottom:6px;}
+.empty-sub{font-size:13px;color:var(--t3);font-style:italic;line-height:1.6;}
+.empty-cta{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:10px 22px;background:var(--blue);color:#fff;border-radius:var(--r2);font-size:13px;font-weight:600;font-family:'Bricolage Grotesque',sans-serif;text-decoration:none;transition:all .2s;}
+.empty-cta:hover{background:var(--blue-h);}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(13,22,41,.5);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-bg.open{display:flex;}
+.modal{background:var(--surface);border-radius:var(--r);padding:28px;width:92%;max-width:600px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(13,22,41,.2);border:1px solid var(--border);animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;}
+.modal-title{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;color:var(--text);}
+.modal-close{background:var(--s2);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:14px;color:var(--t2);display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.modal-close:hover{background:var(--s3);}
+.detail-row{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border2);}
+.detail-row:last-child{border:none;margin-bottom:0;padding-bottom:0;}
+.detail-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;font-family:'Bricolage Grotesque',sans-serif;}
+.detail-val{font-size:14px;color:var(--text);line-height:1.7;white-space:pre-wrap;}
+.detail-val.empty{color:var(--t3);font-style:italic;}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:12px 24px;border-radius:30px;z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);font-family:'Bricolage Grotesque',sans-serif;box-shadow:0 8px 24px rgba(26,79,191,.4);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .shell{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .main{padding:16px;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .feed-header{flex-direction:column;align-items:flex-start;}
+  .search-input{width:100%;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <div class="brand-icon">FC</div>
+        <div class="brand-name">Flow<span>Check</span></div>
+      </div>
+      <div class="brand-desc">Platform Evaluasi Pembelajaran<br>Open Access · Multi-User</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-label">Menu Utama</div>
+      <a class="nav-item active" href="beranda.html"><span class="nav-icon">🏠</span> Beranda</a>
+      <a class="nav-item" href="input.html"><span class="nav-icon">📝</span> Input Dokumen</a>
+      <a class="nav-item" href="analisis.html"><span class="nav-icon">📊</span> Analisis</a>
+      <div class="nav-label">Fitur</div>
+      <a class="nav-item" href="praktikum.html"><span class="nav-icon">🔬</span> Lap. Praktikum</a>
+      <a class="nav-item" href="rancangan.html"><span class="nav-icon">📐</span> Rancangan Mengajar</a>
+      <a class="nav-item" href="selfassess.html"><span class="nav-icon">🎯</span> Self-Assessment</a>
+      <div class="nav-label">Referensi</div>
+      <a class="nav-item" href="gamifikasi.html"><span class="nav-icon">🎮</span> Gamifikasi</a>
+      <a class="nav-item" href="referensi.html"><span class="nav-icon">📚</span> Referensi</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="stat-row"><span class="stat-label">Total dokumen</span><span class="stat-val" id="s-total">0</span></div>
+      <div class="stat-row"><span class="stat-label">Kontributor</span><span class="stat-val" id="s-user">0</span></div>
+      <div class="stat-row"><span class="stat-label">RPS</span><span class="stat-val" id="s-rps">0</span></div>
+      <div class="stat-row"><span class="stat-label">RPP</span><span class="stat-val" id="s-rpp">0</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="page-header">
+      <h1 class="page-title">Beranda</h1>
+      <p class="page-sub">Semua dokumen yang telah diinput — terbuka untuk siapapun</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-icon">📂</div>
+        <div class="stat-card-val" id="h-total">0</div>
+        <div class="stat-card-label">Total Dokumen</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">👥</div>
+        <div class="stat-card-val" id="h-user">0</div>
+        <div class="stat-card-label">Kontributor</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">📋</div>
+        <div class="stat-card-val" id="h-rps">0</div>
+        <div class="stat-card-label">RPS Tersimpan</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">📄</div>
+        <div class="stat-card-val" id="h-rpp">0</div>
+        <div class="stat-card-label">RPP Tersimpan</div>
+      </div>
+    </div>
+
+    <!-- FEED -->
+    <div class="feed-card">
+      <div class="feed-header">
+        <div class="feed-title">📚 Dokumen Publik</div>
+        <div class="feed-actions">
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input class="search-input" id="search" placeholder="Cari dokumen, nama, mapel..." oninput="renderFeed()">
+          </div>
+          <div class="filter-pills">
+            <button class="pill active" onclick="setFilter('Semua',this)">Semua</button>
+            <button class="pill" onclick="setFilter('RPS',this)">RPS</button>
+            <button class="pill" onclick="setFilter('RPP',this)">RPP</button>
+            <button class="pill" onclick="setFilter('Laporan',this)">Laporan</button>
+            <button class="pill" onclick="setFilter('Rancangan',this)">Rancangan</button>
+          </div>
+        </div>
+      </div>
+      <div class="doc-list" id="doc-list"></div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL DETAIL -->
+<div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title">Detail Dokumen</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE = 'flowcheck_v3';
+let currentFilter = 'Semua';
+
+function getDocs(){try{return JSON.parse(localStorage.getItem(STORE)||'[]');}catch{return[];}}
+
+function updateStats(){
+  const docs = getDocs();
+  const names = new Set(docs.map(d=>d.nama).filter(Boolean));
+  const vals = {
+    total: docs.length,
+    user: names.size,
+    rps: docs.filter(d=>d.jenis==='RPS').length,
+    rpp: docs.filter(d=>d.jenis==='RPP').length
+  };
+  ['total','user','rps','rpp'].forEach(k=>{
+    ['s-','h-'].forEach(p=>{
+      const el = document.getElementById(p+k);
+      if(el) el.textContent = vals[k];
+    });
+  });
+}
+
+function setFilter(f, el){
+  currentFilter = f;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderFeed();
+}
+
+function renderFeed(){
+  const q = (document.getElementById('search').value||'').toLowerCase();
+  let docs = getDocs();
+  if(currentFilter !== 'Semua') docs = docs.filter(d=>d.jenis===currentFilter);
+  if(q) docs = docs.filter(d=>(d.mapel+d.nama+d.instansi+d.judul+d.tujuan+'').toLowerCase().includes(q));
+
+  const el = document.getElementById('doc-list');
+  if(!docs.length){
+    el.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">📂</div>
+        <div class="empty-title">Belum ada dokumen${q?` untuk "${q}"`:''}.</div>
+        <div class="empty-sub">Jadilah yang pertama berkontribusi!<br>Input RPP, RPS, atau rancangan mengajar kamu.</div>
+        <a href="input.html" class="empty-cta">+ Input Dokumen Sekarang</a>
+      </div>`;
+    return;
+  }
+
+  const iconMap = {RPS:'di-rps',RPP:'di-rpp',Laporan:'di-lap',Rancangan:'di-rng'};
+  const emojiMap = {RPS:'📋',RPP:'📄',Laporan:'🔬',Rancangan:'📐'};
+  const badgeMap = {RPS:'jb-rps',RPP:'jb-rpp',Laporan:'jb-lap',Rancangan:'jb-rng'};
+
+  el.innerHTML = docs.map(d=>`
+    <div class="doc-item">
+      <div class="doc-icon ${iconMap[d.jenis]||'di-rpp'}">${emojiMap[d.jenis]||'📄'}</div>
+      <div class="doc-body">
+        <div class="doc-title">
+          ${d.jenis==='Laporan'||d.jenis==='Rancangan' ? (d.judul||d.mapel||'Tanpa Judul') : (d.mapel||'Tanpa Judul')}
+          ${d.kelas?`<span style="color:var(--t3);font-weight:400;font-size:12px;"> — ${d.kelas}</span>`:''}
+          <span class="jenis-badge ${badgeMap[d.jenis]||'jb-rpp'}">${d.jenis}</span>
+        </div>
+        <div class="doc-meta">
+          oleh <strong style="color:var(--t2);">${d.nama||'Anonim'}</strong>
+          ${d.instansi?` · ${d.instansi}`:''} · ${d.ts||'-'}
+        </div>
+      </div>
+      <div class="doc-acts">
+        <button class="doc-btn" onclick="showDetail(${d.id})">Detail</button>
+        <button class="doc-btn primary" onclick="goAnalisis(${d.id})">Analisis</button>
+        <button class="doc-btn danger" onclick="hapus(${d.id})">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showDetail(id){
+  const d = getDocs().find(x=>x.id===id);
+  if(!d) return;
+  const isLain = d.jenis==='Laporan'||d.jenis==='Rancangan';
+  const fields = isLain
+    ? [['Jenis',d.jenis],['Mata Kuliah',d.mapel],['Kelas',d.kelas],['Nama',d.nama],['Instansi',d.instansi],['Judul',d.judul],['Isi Ringkas',d.isi],['Temuan / Tujuan',d.temuan],['Tanggal',d.ts]]
+    : [['Jenis',d.jenis],['Mata Kuliah',d.mapel],['Kelas',d.kelas],['Nama',d.nama],['Instansi',d.instansi],['CPMK',d.cpmk],['KKO',d.kko],['Strategi',d.strategi],['Alokasi Waktu',d.waktu?(d.waktu+' menit'):''],['Tujuan Pembelajaran',d.tujuan],['Kegiatan Inti',d.kegiatan],['Media',d.media],['Penilaian',d.penilaian],['Tanggal',d.ts]];
+
+  document.getElementById('modal-title').textContent = `${d.jenis}: ${d.mapel||d.judul||'-'}`;
+  document.getElementById('modal-body').innerHTML = fields
+    .filter(([,v])=>v)
+    .map(([l,v])=>`
+      <div class="detail-row">
+        <div class="detail-label">${l}</div>
+        <div class="detail-val">${v}</div>
+      </div>`).join('');
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('modal-bg').classList.remove('open');
+}
+
+function goAnalisis(id){
+  localStorage.setItem('fc_analyze_id', id);
+  window.location.href = 'analisis.html';
+}
+
+function hapus(id){
+  if(!confirm('Hapus dokumen ini?')) return;
+  const docs = getDocs().filter(d=>d.id!==id);
+  localStorage.setItem(STORE, JSON.stringify(docs));
+  updateStats();
+  renderFeed();
+  showToast('🗑️ Dokumen dihapus.');
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// INIT
+updateStats();
+renderFeed();
+</script>
+</body>
+</html>
