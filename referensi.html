@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowCheck — Referensi Akademik</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F7FC;--surface:#FFFFFF;--s2:#EBF0F9;--s3:#DDE6F5;--blue:#1A4FBF;--blue-h:#1340A0;--blue2:#E6EEF9;--blue3:#C5D7F2;--green:#0A6640;--green2:#E6F4EE;--amber:#8B4A00;--amber2:#FEF3E6;--red:#8B1010;--red2:#FDEAEA;--purple:#4A1A8B;--purple2:#EEE6F9;--text:#0D1629;--t2:#3D5080;--t3:#8090B0;--border:#D0DCF0;--border2:#E4ECF8;--r:12px;--r2:8px;--r3:6px;--shadow:0 1px 3px rgba(26,79,191,.08),0 4px 16px rgba(26,79,191,.06);--shadow-hover:0 4px 12px rgba(26,79,191,.15),0 8px 32px rgba(26,79,191,.1);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Instrument Sans',sans-serif;min-height:100vh;}
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+.brand{padding:0 20px 24px;border-bottom:1px solid var(--border2);}
+.brand-mark{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.brand-icon{width:38px;height:38px;background:var(--blue);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:14px;color:#fff;}
+.brand-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;color:var(--text);letter-spacing:-.5px;}
+.brand-name span{color:var(--blue);}
+.brand-desc{font-size:11px;color:var(--t3);font-style:italic;line-height:1.4;}
+.nav{padding:16px 12px;flex:1;}
+.nav-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:0 8px;margin:16px 0 6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r2);font-size:13px;color:var(--t2);border:none;background:transparent;font-family:'Instrument Sans',sans-serif;width:100%;text-align:left;cursor:pointer;transition:all .2s;text-decoration:none;}
+.nav-item:hover{background:var(--s2);color:var(--text);}
+.nav-item.active{background:var(--blue2);color:var(--blue);font-weight:500;}
+.nav-icon{font-size:16px;flex-shrink:0;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border2);margin-top:auto;}
+.stat-row{display:flex;justify-content:space-between;margin-bottom:8px;}
+.stat-label{font-size:11px;color:var(--t3);}
+.stat-val{font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:700;color:var(--blue);}
+.main{padding:32px 36px;overflow-y:auto;}
+.page-header{margin-bottom:28px;}
+.page-title{font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:800;color:var(--text);letter-spacing:-.5px;margin-bottom:4px;}
+.page-sub{font-size:14px;color:var(--t2);font-style:italic;}
+.search-wrap{position:relative;margin-bottom:20px;}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--t3);}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px 12px 42px;font-size:14px;font-family:'Instrument Sans',sans-serif;color:var(--text);outline:none;transition:all .2s;box-shadow:var(--shadow);}
+.search-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,79,191,.1);}
+.filter-row{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+.pill{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface);font-family:'Bricolage Grotesque',sans-serif;color:var(--t2);transition:all .2s;box-shadow:var(--shadow);}
+.pill:hover{background:var(--s2);}
+.pill.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.section-title{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.ref-list{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+.ref-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);transition:all .25s;display:flex;gap:16px;align-items:flex-start;}
+.ref-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);border-color:var(--blue3);}
+.ref-card.hidden{display:none;}
+.ref-num{width:36px;height:36px;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;font-family:'Bricolage Grotesque',sans-serif;}
+.ref-body{flex:1;}
+.ref-title{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.ref-author{font-size:12px;color:var(--t3);font-style:italic;margin-bottom:6px;}
+.ref-desc{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:10px;}
+.ref-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.tag{font-size:11px;padding:3px 9px;border-radius:20px;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;}
+.ref-apa{font-size:11px;color:var(--t3);font-style:italic;margin-top:8px;padding-top:8px;border-top:1px solid var(--border2);line-height:1.5;}
+.copy-btn{background:var(--s2);border:1px solid var(--border);border-radius:var(--r3);padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;color:var(--t2);transition:all .2s;margin-top:6px;display:inline-flex;align-items:center;gap:4px;}
+.copy-btn:hover{background:var(--blue2);color:var(--blue);}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:12px 24px;border-radius:30px;z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);font-family:'Bricolage Grotesque',sans-serif;box-shadow:0 8px 24px rgba(26,79,191,.4);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+@media(max-width:768px){.shell{grid-template-columns:1fr;}.sidebar{display:none;}.main{padding:16px;}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark"><div class="brand-icon">FC</div><div class="brand-name">Flow<span>Check</span></div></div><div class="brand-desc">Platform Evaluasi Pembelajaran<br>Open Access · Multi-User</div></div>
+    <nav class="nav">
+      <div class="nav-label">Menu Utama</div>
+      <a class="nav-item" href="index.html"><span class="nav-icon">🏠</span> Beranda</a>
+      <a class="nav-item" href="input.html"><span class="nav-icon">📝</span> Input Dokumen</a>
+      <a class="nav-item" href="analisis.html"><span class="nav-icon">📊</span> Analisis</a>
+      <div class="nav-label">Fitur</div>
+      <a class="nav-item" href="praktikum.html"><span class="nav-icon">🔬</span> Lap. Praktikum</a>
+      <a class="nav-item" href="rancangan.html"><span class="nav-icon">📐</span> Rancangan Mengajar</a>
+      <a class="nav-item" href="selfassess.html"><span class="nav-icon">🎯</span> Self-Assessment</a>
+      <div class="nav-label">Referensi</div>
+      <a class="nav-item" href="gamifikasi.html"><span class="nav-icon">🎮</span> Gamifikasi</a>
+      <a class="nav-item active" href="referensi.html"><span class="nav-icon">📚</span> Referensi</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="stat-row"><span class="stat-label">Total dokumen</span><span class="stat-val" id="s-total">0</span></div>
+      <div class="stat-row"><span class="stat-label">Kontributor</span><span class="stat-val" id="s-user">0</span></div>
+      <div class="stat-row"><span class="stat-label">RPS</span><span class="stat-val" id="s-rps">0</span></div>
+      <div class="stat-row"><span class="stat-label">RPP</span><span class="stat-val" id="s-rpp">0</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <h1 class="page-title">Referensi Akademik</h1>
+      <p class="page-sub">Sumber belajar untuk Learning Flow Optimization — Microlearning, Scaffolding & OBE</p>
+    </div>
+
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="search" placeholder="Cari referensi, penulis, atau topik..." oninput="filterRefs()">
+    </div>
+
+    <div class="filter-row">
+      <button class="pill active" onclick="setFilter('Semua',this)">Semua</button>
+      <button class="pill" onclick="setFilter('Microlearning',this)">Microlearning</button>
+      <button class="pill" onclick="setFilter('Scaffolding',this)">Scaffolding</button>
+      <button class="pill" onclick="setFilter('OBE',this)">OBE & CPL</button>
+      <button class="pill" onclick="setFilter('Kurikulum',this)">Kurikulum</button>
+      <button class="pill" onclick="setFilter('Asesmen',this)">Asesmen</button>
+    </div>
+
+    <div class="ref-list" id="ref-list"></div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE='flowcheck_v3';
+function getDocs(){try{return JSON.parse(localStorage.getItem(STORE)||'[]');}catch{return[];}}
+function updateStats(){const docs=getDocs();const names=new Set(docs.map(d=>d.nama).filter(Boolean));document.getElementById('s-total').textContent=docs.length;document.getElementById('s-user').textContent=names.size;document.getElementById('s-rps').textContent=docs.filter(d=>d.jenis==='RPS').length;document.getElementById('s-rpp').textContent=docs.filter(d=>d.jenis==='RPP').length;}
+
+const REFS=[
+  {num:1,bg:'var(--blue2)',tc:'var(--blue)',title:'Panduan Pembelajaran dan Asesmen',author:'Kemendikbudristek (2022)',desc:'Panduan resmi implementasi Kurikulum Merdeka: struktur Modul Ajar, profil pelajar Pancasila, asesmen formatif-sumatif, dan prinsip pembelajaran berdiferensiasi.',tags:[{t:'Kurikulum Merdeka',c:'var(--blue2)',tc:'var(--blue)'},{t:'Asesmen',c:'var(--green2)',tc:'var(--green)'},{t:'Kurikulum',c:'var(--blue2)',tc:'var(--blue)'}],apa:'Kemendikbudristek. (2022). Panduan Pembelajaran dan Asesmen Kurikulum Merdeka. Jakarta: Kemendikbudristek RI.',cats:['Kurikulum','Asesmen']},
+  {num:2,bg:'var(--green2)',tc:'var(--green)',title:'A Taxonomy for Learning, Teaching, and Assessing',author:'Anderson, L.W. & Krathwohl, D.R. (2001)',desc:'Revisi Taksonomi Bloom yang mengubah ranah kognitif menjadi kata kerja operasional (KKO): mengingat, memahami, menerapkan, menganalisis, mengevaluasi, mencipta (C1–C6).',tags:[{t:'Bloom Taxonomy',c:'var(--green2)',tc:'var(--green)'},{t:'KKO',c:'var(--blue2)',tc:'var(--blue)'}],apa:'Anderson, L.W., & Krathwohl, D.R. (2001). A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom\'s Educational Objectives. New York: Longman.',cats:['OBE']},
+  {num:3,bg:'var(--purple2)',tc:'var(--purple)',title:'Scaffolded Writing and Rewriting in the Discipline',author:'Hyland, K. (2007)',desc:'Scaffolding sebagai strategi pembelajaran bertahap: dari modeling (dosen demonstrasi) → guided practice (latihan terbimbing) → independent practice (mandiri). Mengurangi cognitive load secara bertahap.',tags:[{t:'Scaffolding',c:'var(--purple2)',tc:'var(--purple)'},{t:'Pedagogi',c:'var(--s2)',tc:'var(--t2)'}],apa:'Hyland, K. (2007). Genre pedagogy: Language, literacy and L2 writing instruction. Journal of Second Language Writing, 16(3), 148–164.',cats:['Scaffolding']},
+  {num:4,bg:'var(--amber2)',tc:'var(--amber)',title:'First Principles of Instruction',author:'Merrill, M.D. (2002)',desc:'Lima prinsip instruksional utama: problem-centered, activation, demonstration, application, integration. Mendukung desain pembelajaran time-bound yang efisien dan berdampak.',tags:[{t:'Instructional Design',c:'var(--amber2)',tc:'var(--amber)'},{t:'Time-Bound',c:'var(--blue2)',tc:'var(--blue)'}],apa:'Merrill, M.D. (2002). First principles of instruction. Educational Technology Research and Development, 50(3), 43–59.',cats:['Scaffolding','Microlearning']},
+  {num:5,bg:'var(--blue2)',tc:'var(--blue)',title:'Microlearning: Short and Sweet',author:'Bruck, P.A., Motiwalla, L., & Foerster, F. (2012)',desc:'Microlearning sebagai strategi unit belajar kecil (10–20 menit) yang efektif untuk meningkatkan retensi dan engagement peserta didik digital native.',tags:[{t:'Microlearning',c:'var(--blue2)',tc:'var(--blue)'},{t:'Digital Learning',c:'var(--green2)',tc:'var(--green)'}],apa:'Bruck, P.A., Motiwalla, L., & Foerster, F. (2012). Mobile Learning with Micro-content. IADIS International Conference, 117–121.',cats:['Microlearning']},
+  {num:6,bg:'var(--green2)',tc:'var(--green)',title:'Outcome-Based Education: Principles and Possibilities',author:'Spady, W.G. (1994)',desc:'Fondasi Outcome-Based Education (OBE): mendefinisikan hasil belajar (CPL & CPMK) sebelum merancang pembelajaran. Pembelajaran dirancang mundur dari tujuan akhir.',tags:[{t:'OBE',c:'var(--green2)',tc:'var(--green)'},{t:'CPL',c:'var(--blue2)',tc:'var(--blue)'},{t:'CPMK',c:'var(--blue2)',tc:'var(--blue)'}],apa:'Spady, W.G. (1994). Outcome-Based Education: Critical Issues and Answers. Arlington, VA: American Association of School Administrators.',cats:['OBE']},
+  {num:7,bg:'var(--purple2)',tc:'var(--purple)',title:'The Role of Gamification in Education',author:'Deterding, S., Dixon, D., Khaled, R., & Nacke, L. (2011)',desc:'Gamifikasi dalam pendidikan: penerapan elemen game (poin, leaderboard, badge) untuk meningkatkan motivasi dan engagement mahasiswa dalam pembelajaran.',tags:[{t:'Gamifikasi',c:'var(--purple2)',tc:'var(--purple)'},{t:'Motivasi',c:'var(--amber2)',tc:'var(--amber)'}],apa:'Deterding, S., Dixon, D., Khaled, R., & Nacke, L. (2011). From game design elements to gamefulness. Proceedings of MindTrek, 9–15.',cats:['Microlearning']},
+  {num:8,bg:'var(--amber2)',tc:'var(--amber)',title:'Permendikbudristek No. 53 Tahun 2023',author:'Kemendikbudristek (2023)',desc:'Regulasi terbaru tentang Penjaminan Mutu Pendidikan Tinggi — dasar hukum penerapan OBE, CPL, CPMK dalam kurikulum Pendidikan Tinggi Indonesia.',tags:[{t:'Regulasi',c:'var(--amber2)',tc:'var(--amber)'},{t:'OBE',c:'var(--green2)',tc:'var(--green)'},{t:'Kurikulum',c:'var(--blue2)',tc:'var(--blue)'}],apa:'Kemendikbudristek. (2023). Permendikbudristek No. 53 Tahun 2023 tentang Penjaminan Mutu Pendidikan Tinggi. Jakarta.',cats:['OBE','Kurikulum','Asesmen']},
+  {num:9,bg:'var(--blue2)',tc:'var(--blue)',title:'Understanding by Design',author:'Wiggins, G. & McTighe, J. (2005)',desc:'Backward Design: merancang pembelajaran dimulai dari tujuan akhir (desired results) → bukti pencapaian (assessment) → pengalaman belajar. Fondasi desain RPP berbasis OBE.',tags:[{t:'Backward Design',c:'var(--blue2)',tc:'var(--blue)'},{t:'Asesmen',c:'var(--green2)',tc:'var(--green)'},{t:'OBE',c:'var(--green2)',tc:'var(--green)'}],apa:'Wiggins, G., & McTighe, J. (2005). Understanding by Design (Expanded 2nd ed.). Alexandria, VA: ASCD.',cats:['OBE','Asesmen']},
+  {num:10,bg:'var(--green2)',tc:'var(--green)',title:'Authentic Assessment in Education',author:'Mueller, J. (2005)',desc:'Penilaian autentik sebagai alternatif tes konvensional: rubrik, portofolio, observasi, dan self-assessment yang mengukur kemampuan nyata peserta didik.',tags:[{t:'Asesmen Autentik',c:'var(--green2)',tc:'var(--green)'},{t:'Rubrik',c:'var(--blue2)',tc:'var(--blue)'},{t:'Asesmen',c:'var(--green2)',tc:'var(--green)'}],apa:'Mueller, J. (2005). The authentic assessment toolbox: Enhancing student learning through online faculty development. Journal of Online Learning and Teaching, 1(1).',cats:['Asesmen']},
+];
+
+let currentFilter='Semua';
+
+function setFilter(f,el){
+  currentFilter=f;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  filterRefs();
+}
+
+function filterRefs(){
+  const q=(document.getElementById('search').value||'').toLowerCase();
+  document.querySelectorAll('.ref-card').forEach((card,i)=>{
+    const r=REFS[i];
+    const matchFilter=currentFilter==='Semua'||r.cats.includes(currentFilter);
+    const matchSearch=!q||(r.title+r.author+r.desc+r.apa).toLowerCase().includes(q);
+    card.classList.toggle('hidden',!(matchFilter&&matchSearch));
+  });
+}
+
+function copyAPA(idx){
+  const text=REFS[idx].apa;
+  navigator.clipboard.writeText(text).then(()=>showToast('📋 Format APA disalin!')).catch(()=>{
+    const el=document.createElement('textarea');el.value=text;document.body.appendChild(el);el.select();document.execCommand('copy');document.body.removeChild(el);showToast('📋 Format APA disalin!');
+  });
+}
+
+function renderRefs(){
+  document.getElementById('ref-list').innerHTML=REFS.map((r,i)=>`
+    <div class="ref-card" data-idx="${i}">
+      <div class="ref-num" style="background:${r.bg};color:${r.tc}">${r.num}</div>
+      <div class="ref-body">
+        <div class="ref-title">${r.title}</div>
+        <div class="ref-author">${r.author}</div>
+        <div class="ref-desc">${r.desc}</div>
+        <div class="ref-tags">${r.tags.map(t=>`<span class="tag" style="background:${t.c};color:${t.tc}">${t.t}</span>`).join('')}</div>
+        <div class="ref-apa">${r.apa}</div>
+        <button class="copy-btn" onclick="copyAPA(${i})">📋 Salin Format APA</button>
+      </div>
+    </div>`).join('');
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+updateStats();
+renderRefs();
+</script>
+</body>
+</html>

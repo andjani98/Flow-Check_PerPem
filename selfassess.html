@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowCheck — Self-Assessment KKO</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F7FC;--surface:#FFFFFF;--s2:#EBF0F9;--s3:#DDE6F5;--blue:#1A4FBF;--blue-h:#1340A0;--blue2:#E6EEF9;--blue3:#C5D7F2;--green:#0A6640;--green2:#E6F4EE;--amber:#8B4A00;--amber2:#FEF3E6;--red:#8B1010;--red2:#FDEAEA;--purple:#4A1A8B;--purple2:#EEE6F9;--text:#0D1629;--t2:#3D5080;--t3:#8090B0;--border:#D0DCF0;--border2:#E4ECF8;--r:12px;--r2:8px;--r3:6px;--shadow:0 1px 3px rgba(26,79,191,.08),0 4px 16px rgba(26,79,191,.06);--shadow-hover:0 4px 12px rgba(26,79,191,.15),0 8px 32px rgba(26,79,191,.1);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Instrument Sans',sans-serif;min-height:100vh;}
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+.brand{padding:0 20px 24px;border-bottom:1px solid var(--border2);}
+.brand-mark{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.brand-icon{width:38px;height:38px;background:var(--blue);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:14px;color:#fff;}
+.brand-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;color:var(--text);letter-spacing:-.5px;}
+.brand-name span{color:var(--blue);}
+.brand-desc{font-size:11px;color:var(--t3);font-style:italic;line-height:1.4;}
+.nav{padding:16px 12px;flex:1;}
+.nav-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:0 8px;margin:16px 0 6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r2);font-size:13px;color:var(--t2);border:none;background:transparent;font-family:'Instrument Sans',sans-serif;width:100%;text-align:left;cursor:pointer;transition:all .2s;text-decoration:none;}
+.nav-item:hover{background:var(--s2);color:var(--text);}
+.nav-item.active{background:var(--blue2);color:var(--blue);font-weight:500;}
+.nav-icon{font-size:16px;flex-shrink:0;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border2);margin-top:auto;}
+.stat-row{display:flex;justify-content:space-between;margin-bottom:8px;}
+.stat-label{font-size:11px;color:var(--t3);}
+.stat-val{font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:700;color:var(--blue);}
+.main{padding:32px 36px;overflow-y:auto;}
+.page-header{margin-bottom:28px;}
+.page-title{font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:800;color:var(--text);letter-spacing:-.5px;margin-bottom:4px;}
+.page-sub{font-size:14px;color:var(--t2);font-style:italic;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px 24px;margin-bottom:16px;box-shadow:var(--shadow);}
+.card-title{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.card-sub{font-size:13px;color:var(--t2);margin-bottom:16px;font-style:italic;}
+.tip{background:var(--blue2);border-left:3px solid var(--blue);border-radius:0 var(--r3) var(--r3) 0;padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--blue);line-height:1.5;}
+
+/* IDENTITY */
+.identity-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
+label{display:block;font-size:11px;font-weight:600;color:var(--t2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;font-family:'Bricolage Grotesque',sans-serif;}
+input,select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--r2);padding:9px 13px;color:var(--text);font-family:'Instrument Sans',sans-serif;font-size:14px;outline:none;transition:all .2s;}
+input:focus,select:focus{border-color:var(--blue);background:var(--surface);box-shadow:0 0 0 3px rgba(26,79,191,.1);}
+
+/* KKO GRID */
+.kko-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+.kko-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .25s;box-shadow:var(--shadow);}
+.kko-card:hover{border-color:var(--blue3);box-shadow:var(--shadow-hover);transform:translateY(-2px);}
+.kko-card.active{border-color:var(--blue);background:var(--blue2);box-shadow:0 0 0 3px rgba(26,79,191,.15);}
+.kko-card.done{border-color:var(--green);background:var(--green2);}
+.kko-emoji{font-size:24px;margin-bottom:8px;}
+.kko-level{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.kko-card.active .kko-level{color:var(--blue);}
+.kko-card.done .kko-level{color:var(--green);}
+.kko-desc{font-size:12px;color:var(--t2);line-height:1.4;font-style:italic;}
+.kko-score{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;color:var(--green);margin-top:8px;}
+
+/* SA FORM */
+.sa-form{background:var(--s2);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-bottom:16px;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sa-form-title{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;color:var(--blue);margin-bottom:4px;}
+.sa-form-sub{font-size:13px;color:var(--t2);margin-bottom:18px;font-style:italic;}
+.sa-item{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);padding:14px 16px;margin-bottom:10px;}
+.sa-q{font-size:13px;color:var(--text);margin-bottom:10px;line-height:1.5;}
+.score-btns{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.score-btn{width:40px;height:36px;border-radius:var(--r2);border:1.5px solid var(--border);background:var(--bg);font-size:14px;font-weight:700;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;color:var(--t2);transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.score-btn:hover{border-color:var(--blue3);color:var(--blue);}
+.score-btn.sel{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 2px 8px rgba(26,79,191,.3);}
+.score-hint{font-size:11px;color:var(--t3);font-style:italic;margin-left:4px;}
+.sa-nav{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;}
+.btn{padding:9px 22px;border-radius:var(--r2);font-size:13px;font-weight:700;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);}
+.btn:active{transform:scale(.97);}
+.btn-ghost{background:transparent;color:var(--t2);}
+.btn-ghost:hover{background:var(--s2);}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue);}
+.btn-primary:hover{background:var(--blue-h);}
+.btn-success{background:var(--green);color:#fff;border-color:var(--green);}
+
+/* RESULT */
+.result-banner{background:linear-gradient(135deg,var(--blue2),var(--surface));border:1px solid var(--blue3);border-radius:var(--r);padding:24px 28px;display:flex;align-items:center;gap:24px;margin-bottom:20px;box-shadow:var(--shadow);}
+.result-score{font-family:'Bricolage Grotesque',sans-serif;font-size:56px;font-weight:800;color:var(--blue);line-height:1;}
+.result-info h3{font-family:'Bricolage Grotesque',sans-serif;font-size:17px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.result-info p{font-size:13px;color:var(--t2);font-style:italic;margin-bottom:10px;}
+.result-badges{display:flex;gap:8px;flex-wrap:wrap;}
+.rbadge{font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;font-family:'Bricolage Grotesque',sans-serif;}
+.rb-blue{background:var(--blue2);color:var(--blue);}
+.rb-green{background:var(--green2);color:var(--green);}
+.rb-amber{background:var(--amber2);color:var(--amber);}
+
+/* RADAR CHART SIMPLE */
+.level-bars{display:flex;flex-direction:column;gap:10px;margin:12px 0;}
+.level-bar-row{display:flex;align-items:center;gap:12px;}
+.level-bar-label{font-size:12px;font-weight:600;color:var(--t2);width:120px;font-family:'Bricolage Grotesque',sans-serif;flex-shrink:0;}
+.level-bar-track{flex:1;height:10px;background:var(--s3);border-radius:5px;overflow:hidden;}
+.level-bar-fill{height:100%;border-radius:5px;transition:width .8s cubic-bezier(.34,1,.64,1);}
+.level-bar-val{font-size:12px;font-weight:700;color:var(--blue);font-family:'Bricolage Grotesque',sans-serif;width:32px;text-align:right;flex-shrink:0;}
+
+/* RECOMMENDATION */
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
+.rec-card{background:var(--s2);border-radius:var(--r2);padding:14px 16px;border:1px solid var(--border2);}
+.rec-level{font-size:11px;font-weight:700;color:var(--blue);margin-bottom:6px;font-family:'Bricolage Grotesque',sans-serif;text-transform:uppercase;letter-spacing:.04em;}
+.rec-text{font-size:13px;color:var(--text);line-height:1.5;}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:12px 24px;border-radius:30px;z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);font-family:'Bricolage Grotesque',sans-serif;box-shadow:0 8px 24px rgba(26,79,191,.4);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@media(max-width:768px){.shell{grid-template-columns:1fr;}.sidebar{display:none;}.main{padding:16px;}.kko-grid,.identity-row,.rec-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark"><div class="brand-icon">FC</div><div class="brand-name">Flow<span>Check</span></div></div><div class="brand-desc">Platform Evaluasi Pembelajaran<br>Open Access · Multi-User</div></div>
+    <nav class="nav">
+      <div class="nav-label">Menu Utama</div>
+      <a class="nav-item" href="index.html"><span class="nav-icon">🏠</span> Beranda</a>
+      <a class="nav-item" href="input.html"><span class="nav-icon">📝</span> Input Dokumen</a>
+      <a class="nav-item" href="analisis.html"><span class="nav-icon">📊</span> Analisis</a>
+      <div class="nav-label">Fitur</div>
+      <a class="nav-item" href="praktikum.html"><span class="nav-icon">🔬</span> Lap. Praktikum</a>
+      <a class="nav-item" href="rancangan.html"><span class="nav-icon">📐</span> Rancangan Mengajar</a>
+      <a class="nav-item active" href="selfassess.html"><span class="nav-icon">🎯</span> Self-Assessment</a>
+      <div class="nav-label">Referensi</div>
+      <a class="nav-item" href="gamifikasi.html"><span class="nav-icon">🎮</span> Gamifikasi</a>
+      <a class="nav-item" href="referensi.html"><span class="nav-icon">📚</span> Referensi</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="stat-row"><span class="stat-label">Total dokumen</span><span class="stat-val" id="s-total">0</span></div>
+      <div class="stat-row"><span class="stat-label">Kontributor</span><span class="stat-val" id="s-user">0</span></div>
+      <div class="stat-row"><span class="stat-label">RPS</span><span class="stat-val" id="s-rps">0</span></div>
+      <div class="stat-row"><span class="stat-label">RPP</span><span class="stat-val" id="s-rpp">0</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <h1 class="page-title">Self-Assessment KKO</h1>
+      <p class="page-sub">Nilai kemampuan diri sendiri per level Taksonomi Bloom — C1 sampai C6</p>
+    </div>
+
+    <!-- IDENTITAS -->
+    <div class="card">
+      <div class="card-title">👤 Identitas</div>
+      <div class="identity-row">
+        <div><label>Nama</label><input id="sa-nama" placeholder="Nama lengkap..."></div>
+        <div><label>Kelas</label><select id="sa-kelas"><option value="">Pilih kelas</option><option>Kelas A</option><option>Kelas B</option></select></div>
+        <div><label>Mata Kuliah</label><input id="sa-mapel" value="Perencanaan Pembelajaran"></div>
+      </div>
+    </div>
+
+    <!-- KKO CARDS -->
+    <div class="card">
+      <div class="card-title">🎯 Pilih Level KKO untuk Dinilai</div>
+      <div class="card-sub">Klik kartu level yang ingin kamu nilai. Kerjakan semua 6 level untuk hasil yang komprehensif.</div>
+      <div class="tip">Nilai diri kamu dengan <strong>jujur</strong> — bukan nilai yang diharapkan, tapi kemampuan nyata saat ini. Ini bukan ujian, ini refleksi.</div>
+      <div class="kko-grid" id="kko-grid"></div>
+    </div>
+
+    <!-- SA FORM -->
+    <div id="sa-form-area"></div>
+
+    <!-- RESULT -->
+    <div id="sa-result-area"></div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE='flowcheck_v3';
+function getDocs(){try{return JSON.parse(localStorage.getItem(STORE)||'[]');}catch{return[];}}
+function updateStats(){const docs=getDocs();const names=new Set(docs.map(d=>d.nama).filter(Boolean));document.getElementById('s-total').textContent=docs.length;document.getElementById('s-user').textContent=names.size;document.getElementById('s-rps').textContent=docs.filter(d=>d.jenis==='RPS').length;document.getElementById('s-rpp').textContent=docs.filter(d=>d.jenis==='RPP').length;}
+function gv(id){return(document.getElementById(id)||{}).value||'';}
+
+const KKO=[
+  {emoji:'🔵',level:'C1 — Mengingat',desc:'Mendefinisikan & menyebutkan komponen RPP',color:'var(--blue)',bg:'var(--blue2)',
+    items:['Saya hafal seluruh komponen RPP/RPS Kurikulum Merdeka','Saya bisa mendefinisikan OBE, CPL, dan CPMK dengan benar','Saya mengingat format tujuan ABCD dan contohnya']},
+  {emoji:'🟢',level:'C2 — Memahami',desc:'Menjelaskan & membedakan konsep pembelajaran',color:'var(--green)',bg:'var(--green2)',
+    items:['Saya bisa menjelaskan perbedaan Kurikulum Merdeka vs K13','Saya memahami keterkaitan CPL → CPMK → Tujuan Pembelajaran','Saya mengerti konsep microlearning & scaffolding secara mendalam']},
+  {emoji:'🟡',level:'C3 — Menerapkan',desc:'Menggunakan FlowCheck & merancang RPP',color:'var(--amber)',bg:'var(--amber2)',
+    items:['Saya bisa menggunakan FlowCheck dengan lancar tanpa panduan','Saya menerapkan format ABCD pada tujuan pembelajaran dengan tepat','Saya mampu melaksanakan alur scaffolding dalam RPP yang saya buat']},
+  {emoji:'🟠',level:'C4 — Menganalisis',desc:'Menganalisis kesesuaian RPP dengan standar',color:'#8B4A00',bg:'#FEF3E6',
+    items:['Saya bisa menganalisis kekuatan & kelemahan RPP saya secara objektif','Saya mampu membandingkan RPP saya dengan contoh RPP yang ideal','Saya bisa menguraikan ketidaksesuaian antara tujuan & penilaian']},
+  {emoji:'🔴',level:'C5 — Mengevaluasi',desc:'Menilai & memvalidasi kualitas RPP secara kritis',color:'var(--red)',bg:'var(--red2)',
+    items:['Saya bisa menilai kualitas RPP secara kritis dan memberikan saran','Saya mampu memvalidasi kesesuaian RPP dengan standar OBE & CPL','Saya bisa memutuskan revisi apa yang diperlukan pada sebuah RPP']},
+  {emoji:'🟣',level:'C6 — Mencipta',desc:'Merancang RPP orisinal & inovatif',color:'var(--purple)',bg:'var(--purple2)',
+    items:['Saya mampu merancang RPP yang orisinal, inovatif & berbeda dari template','Saya bisa mengembangkan media pembelajaran yang relevan & kreatif','Saya menyusun RPP yang berdampak nyata bagi peserta didik']},
+];
+
+let saScores={};
+let activeLevel=-1;
+
+function renderGrid(){
+  document.getElementById('kko-grid').innerHTML=KKO.map((k,i)=>{
+    const avg=saScores[i]&&saScores[i].filter(Boolean).length===3?
+      (saScores[i].reduce((a,b)=>a+(b||0),0)/3).toFixed(1):null;
+    return`<div class="kko-card ${activeLevel===i?'active':avg?'done':''}" onclick="selectLevel(${i})">
+      <div class="kko-emoji">${k.emoji}</div>
+      <div class="kko-level">${k.level}</div>
+      <div class="kko-desc">${k.desc}</div>
+      ${avg?`<div class="kko-score">${avg}/5 ✓</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function selectLevel(i){
+  activeLevel=i;
+  renderGrid();
+  const k=KKO[i];
+  const cur=saScores[i]||[null,null,null];
+  document.getElementById('sa-form-area').innerHTML=`
+    <div class="sa-form">
+      <div class="sa-form-title" style="color:${k.color}">${k.emoji} ${k.level}</div>
+      <div class="sa-form-sub">Beri skor 1–5 untuk setiap pernyataan. Jujur ya — ini bukan ujian!</div>
+      ${k.items.map((q,qi)=>`
+        <div class="sa-item">
+          <div class="sa-q">${qi+1}. ${q}</div>
+          <div class="score-btns">
+            ${[1,2,3,4,5].map(v=>`<button class="score-btn ${cur[qi]===v?'sel':''}" onclick="setSA(${i},${qi},${v},this)">${v}</button>`).join('')}
+            <span class="score-hint">1=Belum mampu · 3=Cukup · 5=Sangat mampu</span>
+          </div>
+        </div>`).join('')}
+      <div class="sa-nav">
+        ${i>0?`<button class="btn btn-ghost" onclick="selectLevel(${i-1})">← Level sebelumnya</button>`:''}
+        <button class="btn btn-primary" onclick="submitLevel(${i})">Simpan & Lanjut ${i<5?'→':''}</button>
+        ${Object.keys(saScores).length>=6?`<button class="btn btn-success" onclick="showResult()">📊 Lihat Hasil Lengkap</button>`:''}
+      </div>
+    </div>`;
+  document.getElementById('sa-form-area').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function setSA(level,q,v,btn){
+  if(!saScores[level])saScores[level]=[null,null,null];
+  saScores[level][q]=v;
+  const row=btn.parentElement;
+  row.querySelectorAll('.score-btn').forEach((b,i)=>{
+    b.classList.toggle('sel',i+1===v);
+  });
+}
+
+function submitLevel(i){
+  const scores=saScores[i]||[];
+  if(scores.filter(Boolean).length<3){showToast('⚠️ Isi semua 3 pernyataan dulu!');return;}
+  showToast(`✅ Level ${KKO[i].level.split('—')[0].trim()} tersimpan!`);
+  if(i<5)selectLevel(i+1);
+  else{renderGrid();showResult();}
+}
+
+function showResult(){
+  const completed=Object.keys(saScores).filter(k=>saScores[k]&&saScores[k].filter(Boolean).length===3);
+  if(completed.length===0){showToast('⚠️ Belum ada level yang dinilai!');return;}
+  const avgs=KKO.map((_,i)=>{
+    if(!saScores[i]||saScores[i].filter(Boolean).length<3)return null;
+    return parseFloat((saScores[i].reduce((a,b)=>a+(b||0),0)/3).toFixed(2));
+  });
+  const validAvgs=avgs.filter(a=>a!==null);
+  const overall=(validAvgs.reduce((a,b)=>a+b,0)/validAvgs.length).toFixed(1);
+  const strongest=avgs.indexOf(Math.max(...avgs.filter(a=>a!==null)));
+  const weakest=avgs.indexOf(Math.min(...avgs.filter(a=>a!==null)));
+  const label=parseFloat(overall)>=4.5?'Sangat Baik ⭐⭐⭐':parseFloat(overall)>=3.5?'Baik ✅':parseFloat(overall)>=2.5?'Cukup ⚠️':'Perlu Ditingkatkan ❗';
+
+  const recs=[
+    {level:'Pertahankan',text:`Level terkuatmu adalah <strong>${KKO[strongest]?.level}</strong> (${avgs[strongest]?.toFixed(1)}/5). Terus kembangkan di level ini!`},
+    {level:'Tingkatkan',text:`Level yang perlu ditingkatkan: <strong>${KKO[weakest]?.level}</strong> (${avgs[weakest]?.toFixed(1)}/5). Perbanyak latihan di level ini.`},
+    {level:'Langkah Selanjutnya',text:parseFloat(overall)>=4?'Kamu siap menjadi mentor teman-temanmu dalam Perencanaan Pembelajaran!':parseFloat(overall)>=3?'Kerjakan lebih banyak RPP dan minta feedback dari dosen.':'Kembali review materi dari awal dan diskusikan dengan dosen.'},
+    {level:'Target',text:`Targetkan rata-rata <strong>4.0/5.0</strong> di semua level KKO sebagai standar kesiapan menjadi pendidik profesional.`},
+  ];
+
+  document.getElementById('sa-result-area').innerHTML=`
+    <div class="card">
+      <div class="card-title">📊 Hasil Self-Assessment KKO</div>
+      <div class="result-banner">
+        <div class="result-score">${overall}</div>
+        <div class="result-info">
+          <h3>${gv('sa-nama')||'Mahasiswa'} — ${gv('sa-kelas')||'Kelas A/B'}</h3>
+          <p>${gv('sa-mapel')||'Perencanaan Pembelajaran'} · ${completed.length}/6 Level Dinilai</p>
+          <div class="result-badges">
+            <span class="rbadge rb-blue">Rata-rata ${overall}/5</span>
+            <span class="rbadge ${parseFloat(overall)>=4?'rb-green':parseFloat(overall)>=3?'rb-amber':'rb-amber'}">${label}</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-title" style="margin-bottom:12px;">📈 Profil Kemampuan per Level</div>
+      <div class="level-bars">
+        ${KKO.map((k,i)=>avgs[i]!==null?`
+          <div class="level-bar-row">
+            <div class="level-bar-label">${k.emoji} ${k.level.split('—')[0].trim()}</div>
+            <div class="level-bar-track"><div class="level-bar-fill" style="width:${avgs[i]/5*100}%;background:${k.color};"></div></div>
+            <div class="level-bar-val">${avgs[i].toFixed(1)}</div>
+          </div>`:'').join('')}
+      </div>
+      <div class="card-title" style="margin:20px 0 12px;">💡 Rekomendasi</div>
+      <div class="rec-grid">
+        ${recs.map(r=>`<div class="rec-card"><div class="rec-level">${r.level}</div><div class="rec-text">${r.text}</div></div>`).join('')}
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="resetAll()">↺ Ulangi Assessment</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Cetak Hasil</button>
+      </div>
+    </div>`;
+  document.getElementById('sa-result-area').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{
+    document.querySelectorAll('.level-bar-fill').forEach(el=>{const w=el.style.width;el.style.width='0%';setTimeout(()=>el.style.width=w,100);});
+  },200);
+}
+
+function resetAll(){
+  saScores={};activeLevel=-1;
+  document.getElementById('sa-form-area').innerHTML='';
+  document.getElementById('sa-result-area').innerHTML='';
+  renderGrid();
+  showToast('↺ Assessment direset.');
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+updateStats();
+renderGrid();
+</script>
+</body>
+</html>
